@@ -1,0 +1,91 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Build outputs
+dist/
+build/
+*.log
+.next/
+out/
+.nuxt/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.fleet/
+.cursor/
+
+# Claude Code settings (keep only local settings ignored)
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Test coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+postgres_data/
+mysql_data/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# TypeScript
+*.tsbuildinfo
+.tsc/
+
+# Jest
+.jest-cache/
+
+# ESLint
+.eslintcache
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Uploads and user-generated content
+uploads/
+public/uploads/
+
+# Session files
+sessions/
+
+# Lock files (optional - uncomment if you want to ignore)
+# package-lock.json
