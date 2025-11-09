@@ -8,9 +8,24 @@ export const getAllUsers = async (req, res) => {
   try {
     const users = await User.getAllActive();
 
+    // Convert snake_case to camelCase for frontend
+    const formattedUsers = users.map(user => ({
+      userId: user.user_id,
+      email: user.email,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      jobTitle: user.job_title,
+      isAdmin: user.is_admin,
+      isActive: user.is_active,
+      twoFaEnabled: user.two_fa_enabled,
+      createdAt: user.created_at,
+      updatedAt: user.updated_at,
+      lastLogin: user.last_login
+    }));
+
     res.status(200).json({
       success: true,
-      users
+      users: formattedUsers
     });
   } catch (error) {
     console.error('Get all users error:', error);
