@@ -8,6 +8,7 @@ const ParticipantsModal = ({ cycle, onClose, onUpdate }) => {
   const [selectedUsers, setSelectedUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [adding, setAdding] = useState(false)
+  const [removing, setRemoving] = useState(null)
   const [error, setError] = useState(null)
 
   useEffect(() => {
@@ -47,6 +48,23 @@ const ParticipantsModal = ({ cycle, onClose, onUpdate }) => {
       alert(err.message || 'Failed to add participants')
     } finally {
       setAdding(false)
+    }
+  }
+
+  const handleRemoveParticipant = async (userId) => {
+    if (!confirm('Are you sure you want to remove this participant from the review cycle?')) {
+      return
+    }
+
+    try {
+      setRemoving(userId)
+      await reviewCycleService.removeParticipant(cycle.cycleId, userId)
+      await fetchData()
+      if (onUpdate) onUpdate()
+    } catch (err) {
+      alert(err.message || 'Failed to remove participant')
+    } finally {
+      setRemoving(null)
     }
   }
 
@@ -113,12 +131,31 @@ const ParticipantsModal = ({ cycle, onClose, onUpdate }) => {
                     ) : (
                       <ul className="divide-y divide-gray-200">
                         {participants.map(participant => (
-                          <li key={participant.participantId} className="p-3">
-                            <div className="text-sm font-medium text-gray-900">
-                              {participant.firstName} {participant.lastName}
+                          <li key={participant.participantId} className="p-3 flex items-start justify-between group hover:bg-gray-50">
+                            <div className="flex-1">
+                              <div className="text-sm font-medium text-gray-900">
+                                {participant.firstName} {participant.lastName}
+                              </div>
+                              <div className="text-xs text-gray-500">{participant.email}</div>
+                              <div className="text-xs text-gray-500">{participant.jobTitle}</div>
                             </div>
-                            <div className="text-xs text-gray-500">{participant.email}</div>
-                            <div className="text-xs text-gray-500">{participant.jobTitle}</div>
+                            <button
+                              onClick={() => handleRemoveParticipant(participant.userId)}
+                              disabled={removing === participant.userId}
+                              className="ml-3 p-1 text-gray-400 hover:text-red-600 focus:outline-none disabled:opacity-50"
+                              title="Remove participant"
+                            >
+                              {removing === participant.userId ? (
+                                <svg className="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                              ) : (
+                                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                              )}
+                            </button>
                           </li>
                         ))}
                       </ul>

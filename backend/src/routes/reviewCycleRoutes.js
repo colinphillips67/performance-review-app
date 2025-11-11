@@ -21,6 +21,7 @@ router.post('/:id/cancel', requireAdmin, asyncHandler(reviewCycleController.canc
 router.get('/:id/status', requireAdmin, asyncHandler(reviewCycleController.getCycleStatus));
 router.get('/:id/participants', requireAdmin, asyncHandler(reviewCycleController.getParticipants));
 router.post('/:id/participants', requireAdmin, asyncHandler(reviewCycleController.addParticipants));
+router.delete('/:id/participants/:userId', requireAdmin, asyncHandler(reviewCycleController.removeParticipant));
 
 // 360 reviewer selection
 router.get('/:id/360-reviewers/:employeeId', asyncHandler(reviewCycleController.get360Reviewers));
