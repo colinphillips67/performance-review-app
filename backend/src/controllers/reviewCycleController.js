@@ -473,6 +473,47 @@ export const addParticipants = async (req, res, next) => {
 };
 
 /**
+ * Remove participant from cycle (admin only)
+ * DELETE /api/review-cycles/:id/participants/:userId
+ */
+export const removeParticipant = async (req, res, next) => {
+  try {
+    const { id, userId } = req.params;
+
+    // Check if cycle exists
+    const cycle = await ReviewCycle.findById(id);
+    if (!cycle) {
+      return res.status(404).json({
+        error: {
+          code: 'CYCLE_NOT_FOUND',
+          message: 'Review cycle not found'
+        }
+      });
+    }
+
+    // Check if user is a participant
+    const isParticipant = await ReviewCycleParticipant.isParticipant(id, userId);
+    if (!isParticipant) {
+      return res.status(404).json({
+        error: {
+          code: 'PARTICIPANT_NOT_FOUND',
+          message: 'User is not a participant in this cycle'
+        }
+      });
+    }
+
+    // Remove participant
+    await ReviewCycleParticipant.removeParticipant(id, userId);
+
+    res.status(200).json({
+      message: 'Participant removed successfully'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Get 360 reviewers for an employee (stub)
  * GET /api/review-cycles/:id/360-reviewers/:employeeId
  */

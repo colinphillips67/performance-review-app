@@ -118,6 +118,17 @@ export const addParticipants = async (cycleId, userIds) => {
   return response.data
 }
 
+/**
+ * Remove participant from cycle
+ * @param {string} cycleId - Cycle UUID
+ * @param {string} userId - User UUID
+ * @returns {Promise<Object>} Result message
+ */
+export const removeParticipant = async (cycleId, userId) => {
+  const response = await api.delete(`/review-cycles/${cycleId}/participants/${userId}`)
+  return response.data
+}
+
 export default {
   getAllCycles,
   getActiveCycle,
@@ -128,5 +139,6 @@ export default {
   cancelCycle,
   getCycleStatus,
   getParticipants,
-  addParticipants
+  addParticipants,
+  removeParticipant
 }
