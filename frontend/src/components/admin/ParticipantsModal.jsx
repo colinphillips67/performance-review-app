@@ -41,9 +41,10 @@ const ParticipantsModal = ({ cycle, onClose, onUpdate }) => {
     try {
       setAdding(true)
       await reviewCycleService.addParticipants(cycle.cycleId, selectedUsers)
-      await fetchData()
+      const updatedParticipants = await reviewCycleService.getParticipants(cycle.cycleId)
+      setParticipants(updatedParticipants)
       setSelectedUsers([])
-      if (onUpdate) onUpdate()
+      if (onUpdate) onUpdate(cycle.cycleId, updatedParticipants.length)
     } catch (err) {
       alert(err.message || 'Failed to add participants')
     } finally {
@@ -55,8 +56,9 @@ const ParticipantsModal = ({ cycle, onClose, onUpdate }) => {
     try {
       setRemoving(userId)
       await reviewCycleService.removeParticipant(cycle.cycleId, userId)
-      await fetchData()
-      if (onUpdate) onUpdate()
+      const updatedParticipants = await reviewCycleService.getParticipants(cycle.cycleId)
+      setParticipants(updatedParticipants)
+      if (onUpdate) onUpdate(cycle.cycleId, updatedParticipants.length)
     } catch (err) {
       alert(err.message || 'Failed to remove participant')
     } finally {

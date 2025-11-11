@@ -85,6 +85,17 @@ const ReviewCyclesPage = () => {
     setShowParticipantsModal(true)
   }
 
+  const handleParticipantsUpdate = (cycleId, newParticipantCount) => {
+    // Update only the specific cycle's participant count without re-fetching all data
+    setCycles(prevCycles =>
+      prevCycles.map(cycle =>
+        cycle.cycleId === cycleId
+          ? { ...cycle, participantCount: newParticipantCount }
+          : cycle
+      )
+    )
+  }
+
   // Filter cycles by status
   const filteredCycles = cycles.filter((cycle) => {
     if (filterStatus === 'all') return true
@@ -281,7 +292,7 @@ const ReviewCyclesPage = () => {
             setShowParticipantsModal(false)
             setSelectedCycle(null)
           }}
-          onUpdate={fetchCycles}
+          onUpdate={handleParticipantsUpdate}
         />
       )}
     </div>
