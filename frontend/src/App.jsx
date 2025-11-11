@@ -7,6 +7,7 @@ import AdminRoute from './components/AdminRoute'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import MyReviewsPage from './pages/MyReviewsPage'
+import ReviewPage from './pages/ReviewPage'
 import TeamReviewsPage from './pages/TeamReviewsPage'
 import AdminDashboardPage from './pages/admin/AdminDashboardPage'
 import UsersPage from './pages/admin/UsersPage'
@@ -25,6 +26,7 @@ function App() {
           {/* Protected routes */}
           <Route path="/" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
           <Route path="/my-reviews" element={<PrivateRoute><MyReviewsPage /></PrivateRoute>} />
+          <Route path="/reviews/:reviewId" element={<PrivateRoute><ReviewPage /></PrivateRoute>} />
           <Route path="/team-reviews" element={<PrivateRoute><TeamReviewsPage /></PrivateRoute>} />
 
           {/* Admin routes */}
