@@ -52,10 +52,6 @@ const ParticipantsModal = ({ cycle, onClose, onUpdate }) => {
   }
 
   const handleRemoveParticipant = async (userId) => {
-    if (!confirm('Are you sure you want to remove this participant from the review cycle?')) {
-      return
-    }
-
     try {
       setRemoving(userId)
       await reviewCycleService.removeParticipant(cycle.cycleId, userId)
