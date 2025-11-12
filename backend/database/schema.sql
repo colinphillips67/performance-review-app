@@ -80,6 +80,7 @@ CREATE INDEX idx_org_chart_rel_manager ON org_chart_relationships(manager_id);
 CREATE TABLE review_cycles (
   review_cycle_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR(200) NOT NULL,
+  description TEXT,
   org_chart_id UUID NOT NULL REFERENCES org_charts(org_chart_id),
   start_date TIMESTAMP NOT NULL,
   end_date TIMESTAMP NOT NULL,
