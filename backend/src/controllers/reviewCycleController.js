@@ -1,6 +1,7 @@
 import * as ReviewCycle from '../models/ReviewCycle.js';
 import * as ReviewCycleParticipant from '../models/ReviewCycleParticipant.js';
 import * as User from '../models/User.js';
+import * as OrgChart from '../models/OrgChart.js';
 
 /**
  * Review Cycle Controller
@@ -105,12 +106,27 @@ export const createCycle = async (req, res, next) => {
       });
     }
 
+    // Get org chart ID - use provided one or fetch the active org chart
+    let finalOrgChartId = orgChartId;
+    if (!finalOrgChartId) {
+      const activeOrgChart = await OrgChart.getActive();
+      if (!activeOrgChart) {
+        return res.status(400).json({
+          error: {
+            code: 'NO_ACTIVE_ORG_CHART',
+            message: 'No active organization chart found. Please create an org chart first.'
+          }
+        });
+      }
+      finalOrgChartId = activeOrgChart.org_chart_id;
+    }
+
     const cycle = await ReviewCycle.create({
       name,
       description,
       startDate: start,
       endDate: end,
-      orgChartId: orgChartId || null
+      orgChartId: finalOrgChartId
     });
 
     // Convert to camelCase
