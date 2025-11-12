@@ -22,7 +22,7 @@ export const create = async (cycleData) => {
   const result = await query(
     `INSERT INTO review_cycles (name, description, start_date, end_date, status, org_chart_id)
      VALUES ($1, $2, $3, $4, $5, $6)
-     RETURNING cycle_id, name, description, start_date, end_date, status, org_chart_id,
+     RETURNING review_cycle_id, name, description, start_date, end_date, status, org_chart_id,
                created_at, updated_at`,
     [name, description, startDate, endDate, status, orgChartId]
   );
@@ -37,7 +37,7 @@ export const create = async (cycleData) => {
  */
 export const findById = async (cycleId) => {
   const result = await query(
-    `SELECT * FROM review_cycles WHERE cycle_id = $1`,
+    `SELECT * FROM review_cycles WHERE review_cycle_id = $1`,
     [cycleId]
   );
   return result.rows[0] || null;
@@ -51,7 +51,7 @@ export const findById = async (cycleId) => {
  */
 export const getAll = async (options = {}) => {
   let queryText = `
-    SELECT cycle_id, name, description, start_date, end_date, status, org_chart_id,
+    SELECT review_cycle_id, name, description, start_date, end_date, status, org_chart_id,
            created_at, updated_at
     FROM review_cycles
   `;
@@ -103,8 +103,8 @@ export const update = async (cycleId, cycleData) => {
          start_date = COALESCE($3, start_date),
          end_date = COALESCE($4, end_date),
          status = COALESCE($5, status)
-     WHERE cycle_id = $6
-     RETURNING cycle_id, name, description, start_date, end_date, status, org_chart_id,
+     WHERE review_cycle_id = $6
+     RETURNING review_cycle_id, name, description, start_date, end_date, status, org_chart_id,
                created_at, updated_at`,
     [name, description, startDate, endDate, status, cycleId]
   );
@@ -122,8 +122,8 @@ export const updateStatus = async (cycleId, status) => {
   const result = await query(
     `UPDATE review_cycles
      SET status = $1
-     WHERE cycle_id = $2
-     RETURNING cycle_id, name, description, start_date, end_date, status, org_chart_id,
+     WHERE review_cycle_id = $2
+     RETURNING review_cycle_id, name, description, start_date, end_date, status, org_chart_id,
                created_at, updated_at`,
     [status, cycleId]
   );
@@ -137,7 +137,7 @@ export const updateStatus = async (cycleId, status) => {
  * @returns {Promise<void>}
  */
 export const deleteCycle = async (cycleId) => {
-  await query('DELETE FROM review_cycles WHERE cycle_id = $1', [cycleId]);
+  await query('DELETE FROM review_cycles WHERE review_cycle_id = $1', [cycleId]);
 };
 
 /**
@@ -152,9 +152,9 @@ export const getCycleWithStats = async (cycleId) => {
        COUNT(DISTINCT rcp.user_id) as participant_count,
        COUNT(DISTINCT CASE WHEN rcp.assigned_peers_count > 0 THEN rcp.user_id END) as peers_assigned_count
      FROM review_cycles rc
-     LEFT JOIN review_cycle_participants rcp ON rc.cycle_id = rcp.cycle_id
-     WHERE rc.cycle_id = $1
-     GROUP BY rc.cycle_id`,
+     LEFT JOIN review_cycle_participants rcp ON rc.review_cycle_id = rcp.review_cycle_id
+     WHERE rc.review_cycle_id = $1
+     GROUP BY rc.review_cycle_id`,
     [cycleId]
   );
 
@@ -172,8 +172,8 @@ export const getAllWithStats = async () => {
        COUNT(DISTINCT rcp.user_id) as participant_count,
        COUNT(DISTINCT CASE WHEN rcp.assigned_peers_count > 0 THEN rcp.user_id END) as peers_assigned_count
      FROM review_cycles rc
-     LEFT JOIN review_cycle_participants rcp ON rc.cycle_id = rcp.cycle_id
-     GROUP BY rc.cycle_id
+     LEFT JOIN review_cycle_participants rcp ON rc.review_cycle_id = rcp.review_cycle_id
+     GROUP BY rc.review_cycle_id
      ORDER BY rc.start_date DESC`
   );
 

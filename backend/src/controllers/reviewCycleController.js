@@ -46,7 +46,7 @@ export const getAllCycles = async (req, res, next) => {
 
     // Convert snake_case to camelCase for frontend
     const formattedCycles = filteredCycles.map(cycle => ({
-      cycleId: cycle.cycle_id,
+      cycleId: cycle.review_cycle_id,
       name: cycle.name,
       description: cycle.description,
       startDate: cycle.start_date,
@@ -115,7 +115,7 @@ export const createCycle = async (req, res, next) => {
 
     // Convert to camelCase
     res.status(201).json({
-      cycleId: cycle.cycle_id,
+      cycleId: cycle.review_cycle_id,
       name: cycle.name,
       description: cycle.description,
       startDate: cycle.start_date,
@@ -151,7 +151,7 @@ export const getCycleById = async (req, res, next) => {
 
     // Convert to camelCase
     res.json({
-      cycleId: cycle.cycle_id,
+      cycleId: cycle.review_cycle_id,
       name: cycle.name,
       description: cycle.description,
       startDate: cycle.start_date,
@@ -213,7 +213,7 @@ export const updateCycle = async (req, res, next) => {
 
     // Convert to camelCase
     res.json({
-      cycleId: cycle.cycle_id,
+      cycleId: cycle.review_cycle_id,
       name: cycle.name,
       description: cycle.description,
       startDate: cycle.start_date,
@@ -348,7 +348,7 @@ export const getCycleStatus = async (req, res, next) => {
     }
 
     res.json({
-      cycleId: cycle.cycle_id,
+      cycleId: cycle.review_cycle_id,
       status: cycle.status,
       participantCount: parseInt(cycle.participant_count, 10),
       peersAssignedCount: parseInt(cycle.peers_assigned_count, 10)
@@ -382,7 +382,7 @@ export const getParticipants = async (req, res, next) => {
     // Convert to camelCase
     const formattedParticipants = participants.map(p => ({
       participantId: p.participant_id,
-      cycleId: p.cycle_id,
+      cycleId: p.review_cycle_id,
       userId: p.user_id,
       managerId: p.manager_id,
       assignedPeersCount: p.assigned_peers_count,
