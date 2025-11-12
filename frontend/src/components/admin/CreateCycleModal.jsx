@@ -5,7 +5,10 @@ const CreateCycleModal = ({ onClose, onCreate }) => {
     name: '',
     description: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    selfEvalDeadline: '',
+    peer360Deadline: '',
+    managerEvalDeadline: ''
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -135,6 +138,55 @@ const CreateCycleModal = ({ onClose, onCreate }) => {
                     required
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 pt-4">
+                <h4 className="text-sm font-medium text-gray-900 mb-3">Review Deadlines (optional)</h4>
+                <p className="text-xs text-gray-500 mb-3">If not specified, deadlines will be automatically calculated</p>
+
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label htmlFor="selfEvalDeadline" className="block text-xs font-medium text-gray-700 mb-1">
+                      Self-Eval
+                    </label>
+                    <input
+                      type="date"
+                      id="selfEvalDeadline"
+                      name="selfEvalDeadline"
+                      value={formData.selfEvalDeadline}
+                      onChange={handleChange}
+                      className="w-full px-2 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="peer360Deadline" className="block text-xs font-medium text-gray-700 mb-1">
+                      Peer 360
+                    </label>
+                    <input
+                      type="date"
+                      id="peer360Deadline"
+                      name="peer360Deadline"
+                      value={formData.peer360Deadline}
+                      onChange={handleChange}
+                      className="w-full px-2 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="managerEvalDeadline" className="block text-xs font-medium text-gray-700 mb-1">
+                      Manager Eval
+                    </label>
+                    <input
+                      type="date"
+                      id="managerEvalDeadline"
+                      name="managerEvalDeadline"
+                      value={formData.managerEvalDeadline}
+                      onChange={handleChange}
+                      className="w-full px-2 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

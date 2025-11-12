@@ -12,19 +12,61 @@ import { query } from '../config/database.js';
  * @param {string} [cycleData.description] - Cycle description
  * @param {Date} cycleData.startDate - Start date
  * @param {Date} cycleData.endDate - End date
+ * @param {Date} cycleData.selfEvalDeadline - Self evaluation deadline
+ * @param {Date} cycleData.peer360Deadline - Peer 360 review deadline
+ * @param {Date} cycleData.managerEvalDeadline - Manager evaluation deadline
+ * @param {number} cycleData.min360Reviewers - Minimum number of 360 reviewers
+ * @param {number} cycleData.max360Reviewers - Maximum number of 360 reviewers
+ * @param {string} cycleData.reviewerSelectionMethod - Reviewer selection method
+ * @param {string} cycleData.createdBy - User ID who created the cycle
  * @param {string} [cycleData.status='planning'] - Cycle status
- * @param {string} [cycleData.orgChartId] - Organization chart ID to use
+ * @param {string} cycleData.orgChartId - Organization chart ID to use
  * @returns {Promise<Object>} Created review cycle
  */
 export const create = async (cycleData) => {
-  const { name, description, startDate, endDate, status = 'planning', orgChartId = null } = cycleData;
+  const {
+    name,
+    description,
+    startDate,
+    endDate,
+    selfEvalDeadline,
+    peer360Deadline,
+    managerEvalDeadline,
+    min360Reviewers,
+    max360Reviewers,
+    reviewerSelectionMethod,
+    createdBy,
+    status = 'planning',
+    orgChartId
+  } = cycleData;
 
   const result = await query(
-    `INSERT INTO review_cycles (name, description, start_date, end_date, status, org_chart_id)
-     VALUES ($1, $2, $3, $4, $5, $6)
-     RETURNING review_cycle_id, name, description, start_date, end_date, status, org_chart_id,
-               created_at, updated_at`,
-    [name, description, startDate, endDate, status, orgChartId]
+    `INSERT INTO review_cycles (
+      name, description, start_date, end_date,
+      self_eval_deadline, peer_360_deadline, manager_eval_deadline,
+      min_360_reviewers, max_360_reviewers, reviewer_selection_method,
+      created_by, status, org_chart_id
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    RETURNING review_cycle_id, name, description, start_date, end_date,
+              self_eval_deadline, peer_360_deadline, manager_eval_deadline,
+              min_360_reviewers, max_360_reviewers, reviewer_selection_method,
+              status, org_chart_id, created_by, created_at, updated_at`,
+    [
+      name,
+      description,
+      startDate,
+      endDate,
+      selfEvalDeadline,
+      peer360Deadline,
+      managerEvalDeadline,
+      min360Reviewers,
+      max360Reviewers,
+      reviewerSelectionMethod,
+      createdBy,
+      status,
+      orgChartId
+    ]
   );
 
   return result.rows[0];

@@ -72,7 +72,19 @@ export const getAllCycles = async (req, res, next) => {
  */
 export const createCycle = async (req, res, next) => {
   try {
-    const { name, description, startDate, endDate, orgChartId } = req.body;
+    const {
+      name,
+      description,
+      startDate,
+      endDate,
+      selfEvalDeadline,
+      peer360Deadline,
+      managerEvalDeadline,
+      min360Reviewers,
+      max360Reviewers,
+      reviewerSelectionMethod,
+      orgChartId
+    } = req.body;
 
     // Validation
     if (!name || !startDate || !endDate) {
@@ -106,6 +118,23 @@ export const createCycle = async (req, res, next) => {
       });
     }
 
+    // Calculate default deadlines if not provided (divide cycle into thirds)
+    const cycleDuration = end.getTime() - start.getTime();
+    const oneThird = cycleDuration / 3;
+    const twoThirds = (cycleDuration * 2) / 3;
+
+    const selfEvalDeadlineDate = selfEvalDeadline
+      ? new Date(selfEvalDeadline)
+      : new Date(start.getTime() + oneThird);
+
+    const peer360DeadlineDate = peer360Deadline
+      ? new Date(peer360Deadline)
+      : new Date(start.getTime() + twoThirds);
+
+    const managerEvalDeadlineDate = managerEvalDeadline
+      ? new Date(managerEvalDeadline)
+      : new Date(end);
+
     // Get org chart ID - use provided one or fetch the active org chart
     let finalOrgChartId = orgChartId;
     if (!finalOrgChartId) {
@@ -126,6 +155,13 @@ export const createCycle = async (req, res, next) => {
       description,
       startDate: start,
       endDate: end,
+      selfEvalDeadline: selfEvalDeadlineDate,
+      peer360Deadline: peer360DeadlineDate,
+      managerEvalDeadline: managerEvalDeadlineDate,
+      min360Reviewers: min360Reviewers ?? 3,
+      max360Reviewers: max360Reviewers ?? 5,
+      reviewerSelectionMethod: reviewerSelectionMethod || 'manager_selects',
+      createdBy: req.user.userId,
       orgChartId: finalOrgChartId
     });
 
@@ -136,8 +172,15 @@ export const createCycle = async (req, res, next) => {
       description: cycle.description,
       startDate: cycle.start_date,
       endDate: cycle.end_date,
+      selfEvalDeadline: cycle.self_eval_deadline,
+      peer360Deadline: cycle.peer_360_deadline,
+      managerEvalDeadline: cycle.manager_eval_deadline,
+      min360Reviewers: cycle.min_360_reviewers,
+      max360Reviewers: cycle.max_360_reviewers,
+      reviewerSelectionMethod: cycle.reviewer_selection_method,
       status: cycle.status,
       orgChartId: cycle.org_chart_id,
+      createdBy: cycle.created_by,
       createdAt: cycle.created_at,
       updatedAt: cycle.updated_at
     });
