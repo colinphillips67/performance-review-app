@@ -82,14 +82,14 @@ const UsersPage = () => {
     const matchesSearch =
       searchTerm === '' ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.job_title.toLowerCase().includes(searchTerm.toLowerCase())
+      user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.jobTitle.toLowerCase().includes(searchTerm.toLowerCase())
 
     const matchesRole =
       filterRole === 'all' ||
-      (filterRole === 'admin' && user.is_admin) ||
-      (filterRole === 'user' && !user.is_admin)
+      (filterRole === 'admin' && user.isAdmin) ||
+      (filterRole === 'user' && !user.isAdmin)
 
     return matchesSearch && matchesRole
   })
@@ -228,27 +228,27 @@ const UsersPage = () => {
                   </tr>
                 ) : (
                   filteredUsers.map((user) => (
-                    <tr key={user.user_id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={user.userId} className="hover:bg-gray-50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
                             <span className="text-blue-600 font-semibold text-sm">
-                              {user.first_name[0]}{user.last_name[0]}
+                              {user.firstName[0]}{user.lastName[0]}
                             </span>
                           </div>
                           <div className="ml-4">
                             <div className="text-sm font-medium text-gray-900">
-                              {user.first_name} {user.last_name}
+                              {user.firstName} {user.lastName}
                             </div>
                             <div className="text-sm text-gray-500">{user.email}</div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{user.job_title}</div>
+                        <div className="text-sm text-gray-900">{user.jobTitle}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {user.is_admin ? (
+                        {user.isAdmin ? (
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
                             Admin
                           </span>
@@ -259,7 +259,7 @@ const UsersPage = () => {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {user.is_active ? (
+                        {user.isActive ? (
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                             Active
                           </span>
@@ -270,7 +270,7 @@ const UsersPage = () => {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {formatDate(user.last_login)}
+                        {formatDate(user.lastLogin)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
@@ -279,7 +279,7 @@ const UsersPage = () => {
                         >
                           Edit
                         </button>
-                        {user.user_id !== currentUser?.userId && (
+                        {user.userId !== currentUser?.userId && (
                           <button
                             onClick={() => openDeleteModal(user)}
                             className="text-red-600 hover:text-red-900"
