@@ -22,7 +22,7 @@ VALUES (
   'Jane',
   'Smith',
   'Chief Executive Officer',
-  '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+  '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
 );
 
 -- VP Engineering
@@ -32,7 +32,7 @@ VALUES (
   'John',
   'Doe',
   'VP of Engineering',
-  '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+  '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
 );
 
 -- VP Product
@@ -42,7 +42,7 @@ VALUES (
   'Sarah',
   'Johnson',
   'VP of Product',
-  '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+  '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
 );
 
 -- Engineers
@@ -53,14 +53,14 @@ VALUES
     'Bob',
     'Wilson',
     'Senior Software Engineer',
-    '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+    '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
   ),
   (
     'engineer2@example.com',
     'Alice',
     'Brown',
     'Software Engineer',
-    '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+    '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
   );
 
 -- Product Managers
@@ -71,14 +71,14 @@ VALUES
     'Michael',
     'Davis',
     'Senior Product Manager',
-    '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+    '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
   ),
   (
     'pm2@example.com',
     'Emily',
     'Taylor',
     'Product Manager',
-    '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+    '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
   );
 
 -- Designer
@@ -88,5 +88,5 @@ VALUES (
   'Lisa',
   'Martinez',
   'UX Designer',
-  '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewohCd8v8Mz8Jv4.'
+  '$2b$12$zHaz3klrIOw2Fmn8oo8.MeIF0Ixjz5U.6oZkmFrdTRB3Eeypmzqui'
 );
