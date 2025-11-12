@@ -149,8 +149,8 @@ export const getCycleWithStats = async (cycleId) => {
   const result = await query(
     `SELECT
        rc.*,
-       COUNT(DISTINCT rcp.user_id) as participant_count,
-       COUNT(DISTINCT CASE WHEN rcp.assigned_peers_count > 0 THEN rcp.user_id END) as peers_assigned_count
+       COUNT(DISTINCT rcp.employee_id) as participant_count,
+       COUNT(DISTINCT CASE WHEN rcp.assigned_peers_count > 0 THEN rcp.employee_id END) as peers_assigned_count
      FROM review_cycles rc
      LEFT JOIN review_cycle_participants rcp ON rc.review_cycle_id = rcp.review_cycle_id
      WHERE rc.review_cycle_id = $1
@@ -169,8 +169,8 @@ export const getAllWithStats = async () => {
   const result = await query(
     `SELECT
        rc.*,
-       COUNT(DISTINCT rcp.user_id) as participant_count,
-       COUNT(DISTINCT CASE WHEN rcp.assigned_peers_count > 0 THEN rcp.user_id END) as peers_assigned_count
+       COUNT(DISTINCT rcp.employee_id) as participant_count,
+       COUNT(DISTINCT CASE WHEN rcp.assigned_peers_count > 0 THEN rcp.employee_id END) as peers_assigned_count
      FROM review_cycles rc
      LEFT JOIN review_cycle_participants rcp ON rc.review_cycle_id = rcp.review_cycle_id
      GROUP BY rc.review_cycle_id

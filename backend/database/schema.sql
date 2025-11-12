@@ -109,6 +109,7 @@ CREATE TABLE review_cycle_participants (
   self_eval_status participant_status DEFAULT 'not_started',
   peer_360_status participant_status DEFAULT 'not_started',
   manager_eval_status participant_status DEFAULT 'not_started',
+  assigned_peers_count INTEGER DEFAULT 0 NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT (NOW() AT TIME ZONE 'UTC'),
   updated_at TIMESTAMP NOT NULL DEFAULT (NOW() AT TIME ZONE 'UTC'),
   UNIQUE(review_cycle_id, employee_id)

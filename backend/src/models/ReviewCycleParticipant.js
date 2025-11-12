@@ -17,9 +17,9 @@ export const addParticipant = async (participantData) => {
   const { cycleId, userId, managerId = null } = participantData;
 
   const result = await query(
-    `INSERT INTO review_cycle_participants (cycle_id, user_id, manager_id)
+    `INSERT INTO review_cycle_participants (review_cycle_id, employee_id, manager_id)
      VALUES ($1, $2, $3)
-     RETURNING participant_id, cycle_id, user_id, manager_id, assigned_peers_count, created_at`,
+     RETURNING participant_id, review_cycle_id, employee_id, manager_id, assigned_peers_count, created_at`,
     [cycleId, userId, managerId]
   );
 
@@ -47,9 +47,9 @@ export const addMultipleParticipants = async (cycleId, participants) => {
   const params = participants.flatMap(p => [cycleId, p.userId, p.managerId || null]);
 
   const result = await query(
-    `INSERT INTO review_cycle_participants (cycle_id, user_id, manager_id)
+    `INSERT INTO review_cycle_participants (review_cycle_id, employee_id, manager_id)
      VALUES ${values}
-     RETURNING participant_id, cycle_id, user_id, manager_id, assigned_peers_count, created_at`,
+     RETURNING participant_id, review_cycle_id, employee_id, manager_id, assigned_peers_count, created_at`,
     params
   );
 
@@ -64,7 +64,7 @@ export const addMultipleParticipants = async (cycleId, participants) => {
  */
 export const removeParticipant = async (cycleId, userId) => {
   await query(
-    'DELETE FROM review_cycle_participants WHERE cycle_id = $1 AND user_id = $2',
+    'DELETE FROM review_cycle_participants WHERE review_cycle_id = $1 AND employee_id = $2',
     [cycleId, userId]
   );
 };
@@ -78,8 +78,8 @@ export const getParticipants = async (cycleId) => {
   const result = await query(
     `SELECT
        rcp.participant_id,
-       rcp.cycle_id,
-       rcp.user_id,
+       rcp.review_cycle_id,
+       rcp.employee_id,
        rcp.manager_id,
        rcp.assigned_peers_count,
        rcp.created_at,
@@ -91,9 +91,9 @@ export const getParticipants = async (cycleId) => {
        m.first_name as manager_first_name,
        m.last_name as manager_last_name
      FROM review_cycle_participants rcp
-     JOIN users u ON rcp.user_id = u.user_id
+     JOIN users u ON rcp.employee_id = u.user_id
      LEFT JOIN users m ON rcp.manager_id = m.user_id
-     WHERE rcp.cycle_id = $1
+     WHERE rcp.review_cycle_id = $1
      ORDER BY u.last_name, u.first_name`,
     [cycleId]
   );
@@ -109,7 +109,7 @@ export const getParticipants = async (cycleId) => {
  */
 export const isParticipant = async (cycleId, userId) => {
   const result = await query(
-    'SELECT 1 FROM review_cycle_participants WHERE cycle_id = $1 AND user_id = $2',
+    'SELECT 1 FROM review_cycle_participants WHERE review_cycle_id = $1 AND employee_id = $2',
     [cycleId, userId]
   );
 
@@ -131,8 +131,8 @@ export const getParticipant = async (cycleId, userId) => {
        u.last_name,
        u.job_title
      FROM review_cycle_participants rcp
-     JOIN users u ON rcp.user_id = u.user_id
-     WHERE rcp.cycle_id = $1 AND rcp.user_id = $2`,
+     JOIN users u ON rcp.employee_id = u.user_id
+     WHERE rcp.review_cycle_id = $1 AND rcp.employee_id = $2`,
     [cycleId, userId]
   );
 
@@ -150,8 +150,8 @@ export const updateManager = async (cycleId, userId, managerId) => {
   const result = await query(
     `UPDATE review_cycle_participants
      SET manager_id = $1
-     WHERE cycle_id = $2 AND user_id = $3
-     RETURNING participant_id, cycle_id, user_id, manager_id, assigned_peers_count, created_at`,
+     WHERE review_cycle_id = $2 AND employee_id = $3
+     RETURNING participant_id, review_cycle_id, employee_id, manager_id, assigned_peers_count, created_at`,
     [managerId, cycleId, userId]
   );
 
@@ -168,7 +168,7 @@ export const incrementAssignedPeersCount = async (cycleId, userId) => {
   await query(
     `UPDATE review_cycle_participants
      SET assigned_peers_count = assigned_peers_count + 1
-     WHERE cycle_id = $1 AND user_id = $2`,
+     WHERE review_cycle_id = $1 AND employee_id = $2`,
     [cycleId, userId]
   );
 };
@@ -183,7 +183,7 @@ export const decrementAssignedPeersCount = async (cycleId, userId) => {
   await query(
     `UPDATE review_cycle_participants
      SET assigned_peers_count = GREATEST(assigned_peers_count - 1, 0)
-     WHERE cycle_id = $1 AND user_id = $2`,
+     WHERE review_cycle_id = $1 AND employee_id = $2`,
     [cycleId, userId]
   );
 };
@@ -195,7 +195,7 @@ export const decrementAssignedPeersCount = async (cycleId, userId) => {
  */
 export const getParticipantCount = async (cycleId) => {
   const result = await query(
-    'SELECT COUNT(*) as count FROM review_cycle_participants WHERE cycle_id = $1',
+    'SELECT COUNT(*) as count FROM review_cycle_participants WHERE review_cycle_id = $1',
     [cycleId]
   );
 
@@ -208,7 +208,7 @@ export const getParticipantCount = async (cycleId) => {
  * @returns {Promise<void>}
  */
 export const removeAllParticipants = async (cycleId) => {
-  await query('DELETE FROM review_cycle_participants WHERE cycle_id = $1', [cycleId]);
+  await query('DELETE FROM review_cycle_participants WHERE review_cycle_id = $1', [cycleId]);
 };
 
 export default {
